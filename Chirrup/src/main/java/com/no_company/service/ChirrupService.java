@@ -5,9 +5,6 @@ import com.no_company.model.PostsEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.unmodifiableList;
-
-
 public class ChirrupService {
 
     private static ChirrupService _instance;

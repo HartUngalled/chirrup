@@ -13,9 +13,9 @@
         <property name="hibernate.connection.useSSL">false</property>
         <property name="hibernate.connection.password">4815162342</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <!--<mapping class="com.no_company.model.UsersEntity"/>-->
-        <!--<mapping class="com.no_company.model.PostsEntity"/>-->
-        <!--<mapping class="com.no_company.model.TagsEntity"/>-->
+        <mapping class="com.no_company.model.UsersEntity"/>
+        <mapping class="com.no_company.model.PostsEntity"/>
+        <mapping class="com.no_company.model.TagsEntity"/>
     </session-factory>
 
 </hibernate-configuration>

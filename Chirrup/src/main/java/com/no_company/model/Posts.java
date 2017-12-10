@@ -5,7 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
@@ -13,7 +20,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts", schema = "chirrup")
-public class PostsEntity {
+public class Posts implements ModelEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +30,6 @@ public class PostsEntity {
 
     @ManyToOne
     @JoinColumn(name="users_id")
-    private UsersEntity user;
+    private Users user;
 
 }

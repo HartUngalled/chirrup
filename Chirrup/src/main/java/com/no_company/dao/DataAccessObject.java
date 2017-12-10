@@ -1,5 +1,7 @@
-package com.no_company.model;
+package com.no_company.dao;
 
+import com.no_company.model.Posts;
+import com.no_company.model.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,12 +30,12 @@ public class DataAccessObject {
         return userID;
     }
 
-    public UsersEntity getUser(int userID) {
+    public Users getUser(int userID) {
         Transaction tx = null;
-        UsersEntity user = null;
+        Users user = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            user = session.get(UsersEntity.class, userID);
+            user = session.get(Users.class, userID);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -42,26 +44,26 @@ public class DataAccessObject {
         return user;
     }
 
-    public PostsEntity getPost(int postID) {
+    public Posts getPost(int postID) {
         Transaction tx = null;
-        PostsEntity user = null;
+        Posts post = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            user = session.get(PostsEntity.class, postID);
+            post = session.get(Posts.class, postID);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         }
-        return user;
+        return post;
     }
 
-    public List<UsersEntity> getAllUsers() {
+    public List<Users> getAllUsers() {
         Transaction tx = null;
-        List<UsersEntity> allUsers = null;
+        List<Users> allUsers = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            allUsers = session.createQuery("FROM UsersEntity ").list();
+            allUsers = session.createQuery("FROM Users ").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -70,12 +72,12 @@ public class DataAccessObject {
         return allUsers;
     }
 
-    public List<PostsEntity> getAllPosts() {
+    public List<Posts> getAllPosts() {
         Transaction tx = null;
-        List<PostsEntity> allPosts = null;
+        List<Posts> allPosts = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            allPosts = session.createQuery("FROM PostsEntity ").list();
+            allPosts = session.createQuery("FROM Posts ").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -84,9 +86,9 @@ public class DataAccessObject {
         return allPosts;
     }
 
-    public UsersEntity getUserByNickname(String nickname) {
-        List<UsersEntity> allUsers = getAllUsers();
-        for (UsersEntity user : allUsers) {
+    public Users getUserByNickname(String nickname) {
+        List<Users> allUsers = getAllUsers();
+        for (Users user : allUsers) {
             if (user.getNickname().equalsIgnoreCase(nickname)) return user;
         }
         return null;

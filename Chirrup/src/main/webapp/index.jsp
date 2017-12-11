@@ -1,8 +1,8 @@
 <%@ page import="com.no_company.servlets.Login" %>
-<%@ page import="com.no_company.dao.DataAccessObject" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.no_company.model.Posts" %>
 <%@ page import="java.util.Collections" %>
+<%@ page import="com.no_company.dao.PostsDAO" %>
 <html>
 
 <head>
@@ -51,9 +51,8 @@
         /**
          *  Display all posts from db in reverse order (newest on top)
          */
-        DataAccessObject dao = new DataAccessObject();
-
-        List<Posts> allPosts = dao.getAllPosts();
+        PostsDAO dao = new PostsDAO();
+        List<Posts> allPosts = dao.getAll();
         Collections.reverse(allPosts);
         for (Posts post : allPosts) {
             out.print( "Author: " + post.getUser().getNickname() + "<br>" );

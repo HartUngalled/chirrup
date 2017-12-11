@@ -14,9 +14,13 @@ public class Logout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        /**
+         *      Remove cookie by add new null cookie on the same patch.
+         *      Complicated, but simple setMaxAge(0) didn't work.
+         */
         for (Cookie cookie : req.getCookies()) {
-            Cookie nullCookie = new Cookie(Login.AUTHOR_COOKIE, null);
             if (Login.AUTHOR_COOKIE.contentEquals( cookie.getName() )) {
+                Cookie nullCookie = new Cookie(Login.AUTHOR_COOKIE, null);
                 nullCookie.setPath( cookie.getPath() );
                 nullCookie.setMaxAge(0);
                 resp.addCookie(nullCookie);

@@ -3,6 +3,7 @@ package com.no_company.servlets;
 import com.google.common.base.Strings;
 import com.no_company.dao.UsersDAO;
 import com.no_company.model.Users;
+import com.no_company.util.LoginLogoutUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,25 +16,26 @@ import java.io.IOException;
 @WebServlet(name = "Login", value = "/login")
 public class Login extends HttpServlet {
 
-    public static final String AUTHOR_COOKIE = "author-cookie";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String user = req.getParameter("user");
+        String nickname = req.getParameter("nickname");
         String password = req.getParameter("password");
 
-        UsersDAO dao = new UsersDAO();
-        Cookie cookie = new Cookie(AUTHOR_COOKIE, user);
-
-
-        if ( Strings.isNullOrEmpty(user) && Strings.isNullOrEmpty(password) ) {
+        if ( Strings.isNullOrEmpty(nickname) || Strings.isNullOrEmpty(password) ) {
             resp.sendRedirect("/index.jsp?login_error");
         } else {
 
-            Users registeredUser = dao.getByNickname(user);
+            UsersDAO dao = new UsersDAO();
+            Users registeredUser = dao.getByNickname(nickname);
+
             if (registeredUser != null && registeredUser.getPassword().contentEquals(password)) {
+
+                Cookie cookie = new Cookie( LoginLogoutUtils.AUTHOR_COOKIE,
+                                            String.valueOf(registeredUser.getId()) );
                 resp.addCookie(cookie);
                 resp.sendRedirect("index.jsp");
+
             } else {
                 resp.sendRedirect("/index.jsp?login_error");
             }

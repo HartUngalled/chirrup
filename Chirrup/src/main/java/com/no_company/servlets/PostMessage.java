@@ -4,6 +4,7 @@ import com.no_company.dao.PostsDAO;
 import com.no_company.dao.UsersDAO;
 import com.no_company.model.Posts;
 import com.no_company.model.Users;
+import com.no_company.util.LoginLogoutUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,18 +18,18 @@ import java.util.Date;
 @WebServlet(name = "postMessage", value = "/postMessage")
 public class PostMessage extends HttpServlet{
 
-    private UsersDAO usersDAO = new UsersDAO();
-    private PostsDAO postsDAO = new PostsDAO();
+    private PostsDAO dao = new PostsDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Users user = usersDAO.getByNickname( req.getParameter("author") );
 
-        Posts post = new Posts();
-        post.setMessage( req.getParameter("message") );
-        post.setTime(Date.from( Instant.now() ));
-        post.setUser(user);
-        postsDAO.add(post);
+        LoginLogoutUtils loginLogoutUtils = new LoginLogoutUtils(req, resp);
+        Users user = loginLogoutUtils.getLoggedUser();
+        String message = req.getParameter("message");
+        Date time = Date.from( Instant.now() );
+
+        Posts post = Posts.builder().message(message).time(time).user(user).build();
+        dao.add(post);
 
         resp.sendRedirect("index.jsp");
     }

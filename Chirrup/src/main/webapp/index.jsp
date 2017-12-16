@@ -1,65 +1,71 @@
-<%@ page import="com.no_company.servlets.Login" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.no_company.model.Posts" %>
+
 <%@ page import="java.util.Collections" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.no_company.util.LoginLogoutUtils" %>
+<%@ page import="com.no_company.model.Users" %>
 <%@ page import="com.no_company.dao.PostsDAO" %>
+<%@ page import="com.no_company.model.Posts" %>
+
 <html>
 
 <head>
-
-    <%! String author; %>
-
-    <%
-        for (Cookie cookie : request.getCookies()) {
-            if (Login.AUTHOR_COOKIE.contentEquals( cookie.getName() ) ) {
-                author = cookie.getValue();
-                break;
-            } else {
-                author = "guest";
-            }
-        }
-    %>
-
-    <form action="/login" method="post">
-        <p align="right">
-            User: <input name="user"><br>
-            Password: <input type="password" name="password"><br>
-            <input type="submit" name="login" value="Login">
-        </p>
-    </form>
-
-    <form action="/logout" method="post">
-        <p align="right">
-            Logged user: <%= author %> <br>
-            <input type="submit" name="logout" value="Logout">
-        </p>
-    </form>
-
 </head>
 
 <body>
 
-    <form action="/postMessage" method="post">
-        <p align="center">
-            Message: <br><textarea name="message"></textarea><br>
-            <input type="hidden" name="author" value=<%=author%>>
-            <input type="submit" name="submit" value="Submit">
-        </p>
-    </form>
+<%
+    LoginLogoutUtils loginLogoutUtils = new LoginLogoutUtils(request, response);
+    Users loggedUser = loginLogoutUtils.getLoggedUser();
+%>
 
+<p align="right">
     <%
-        /**
-         *  Display all posts from db in reverse order (newest on top)
-         */
-        PostsDAO dao = new PostsDAO();
-        List<Posts> allPosts = dao.getAll();
-        Collections.reverse(allPosts);
-        for (Posts post : allPosts) {
-            out.print( "Author: " + post.getUser().getNickname() + "<br>" );
-            out.print( "Message: " + post.getMessage() + "<br>" );
-            out.print( "At: " + post.getTime() + "<br><br>" );
+        if (loggedUser == null)
+            out.print("<a href=\"/login.jsp\">Login</a>");
+        else
+            out.print("<a href=\"/logout\">Logout</a>");
+    %>
+    <a href="/register.jsp">Register</a>
+
+</p>
+
+
+<p align="center">
+    Hello
+    <%
+        if (loggedUser != null) {
+            out.print( "@" + loggedUser.getNickname() + "<br>" );
+            out.print( "Do you want to <a href=\"/post.jsp\">post</a> a message?" );
+        } else {
+            out.print( "!<br>" );
+            out.print( "You need to log in in order to post a messages" );
         }
     %>
+</p>
+
+<p align="left">
+<%
+    /**
+     *  Display all posts from db in reverse order (newest on top)
+     */
+    PostsDAO dao = new PostsDAO();
+    List<Posts> allPosts = dao.getAll();
+    Collections.reverse(allPosts);
+    for (Posts post : allPosts) {
+        String author = post.getUser().getNickname();
+        out.print( "Author: @" + author + "<br>" );
+        out.print( "Posted " + post.getPrettyTime() + "<br>" );
+        out.print( "Message: " + post.getMessage() + "<br>" );
+
+        if (loggedUser != null && loggedUser.getNickname().contentEquals(author) ) {
+            out.print("<a href=\"/edit.jsp\">Edit</a> ");
+            out.print("<a href=\"/delete.jsp\">Delete</a><br>");
+        }
+
+        out.print( "<br>" );
+    }
+%>
+</p>
 
 </body>
 

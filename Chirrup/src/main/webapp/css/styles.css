@@ -1,0 +1,18 @@
+.loginLogoutRegister {
+    position: absolute;
+    text-align: right;
+    right: 0;
+}
+
+.mainPage {
+    position: absolute;
+    text-align: left;
+    left: 0;
+}
+
+.centerInfo {
+    position: absolute;
+    text-align: center;
+    left: 30%;
+    right: 30%;
+}

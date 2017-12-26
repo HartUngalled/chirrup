@@ -1,7 +1,7 @@
 package com.no_company.util;
 
 import com.no_company.dao.UsersDAO;
-import com.no_company.model.Users;
+import com.no_company.model.User;
 import lombok.Getter;
 
 import javax.servlet.http.Cookie;
@@ -14,7 +14,7 @@ public class LoginLogoutUtils {
 
     private HttpServletRequest request;
     private HttpServletResponse response;
-    @Getter private Users loggedUser;
+    @Getter private User loggedUser;
 
     public LoginLogoutUtils(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;

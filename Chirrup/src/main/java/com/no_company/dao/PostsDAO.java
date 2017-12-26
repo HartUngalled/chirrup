@@ -1,11 +1,20 @@
 package com.no_company.dao;
 
-import com.no_company.model.Posts;
+import com.no_company.model.Post;
 
-public class PostsDAO extends DataAccessObject<Posts> {
+import java.util.Collections;
+import java.util.List;
+
+public class PostsDAO extends DataAccessObject<Post> {
 
     public PostsDAO() {
-        aClass = Posts.class;
+        aClass = Post.class;
+    }
+
+    public List<Post> getAllReverse() {
+        List<Post> allPosts = getAll();
+        Collections.reverse(allPosts);
+        return allPosts;
     }
 
 }

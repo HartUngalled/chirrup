@@ -1,64 +1,44 @@
-
-<%@ page import="java.util.Collections" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.no_company.util.LoginLogoutUtils" %>
-<%@ page import="com.no_company.model.Users" %>
 <%@ page import="com.no_company.dao.PostsDAO" %>
-<%@ page import="com.no_company.model.Posts" %>
+<%@ page import="com.no_company.model.Post" %>
 
 <html>
-
 <head>
+    <link rel="stylesheet" href="css/styles.css">
+    <%@include file="header.jsp"%>
 </head>
 
 <body>
 
-<%
-    LoginLogoutUtils loginLogoutUtils = new LoginLogoutUtils(request, response);
-    Users loggedUser = loginLogoutUtils.getLoggedUser();
-%>
 
-<p align="right">
+<dif class="centerInfo">
     <%
-        if (loggedUser == null)
-            out.print("<a href=\"/login.jsp\">Login</a>");
-        else
-            out.print("<a href=\"/logout\">Logout</a>");
-    %>
-    <a href="/register.jsp">Register</a>
-
-</p>
-
-
-<p align="center">
-    Hello
-    <%
-        if (loggedUser != null) {
-            out.print( "@" + loggedUser.getNickname() + "<br>" );
-            out.print( "Do you want to <a href=\"/post.jsp\">post</a> a message?" );
+        if (loggedUser == null) {
+            out.print( "Hello stranger!<br>" +
+                    "You need to <a href=\"/login.jsp\">log in</a> to post messages" );
         } else {
-            out.print( "!<br>" );
-            out.print( "You need to log in in order to post a messages" );
+            out.print( "Hello @" + loggedUser.getNickname() + "!<br>" +
+                    "Do you want to <a href=\"/post.jsp\">post</a> a message?" );
         }
     %>
-</p>
+</dif>
 
-<p align="left">
+<%--
+        Show Messages
+--%>
+<p align="left"><br><br>
 <%
-    /**
-     *  Display all posts from db in reverse order (newest on top)
-     */
     PostsDAO dao = new PostsDAO();
-    List<Posts> allPosts = dao.getAll();
-    Collections.reverse(allPosts);
-    for (Posts post : allPosts) {
+    List<Post> allPosts = dao.getAllReverse();
+
+    for (Post post : allPosts) {
         String author = post.getUser().getNickname();
         out.print( "Author: @" + author + "<br>" );
         out.print( "Posted " + post.getPrettyTime() + "<br>" );
         out.print( "Message: " + post.getMessage() + "<br>" );
 
         if (loggedUser != null && loggedUser.getNickname().contentEquals(author) ) {
-            out.print("<a href=\"/edit.jsp\">Edit</a> ");
+            out.print("<a href=\"/edit.jsp?post_id=" + post.getId() + "\">Edit</a> ");
             out.print("<a href=\"/delete.jsp\">Delete</a><br>");
         }
 
@@ -68,5 +48,4 @@
 </p>
 
 </body>
-
 </html>

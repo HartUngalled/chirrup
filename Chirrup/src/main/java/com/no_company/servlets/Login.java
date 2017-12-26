@@ -2,7 +2,7 @@ package com.no_company.servlets;
 
 import com.google.common.base.Strings;
 import com.no_company.dao.UsersDAO;
-import com.no_company.model.Users;
+import com.no_company.model.User;
 import com.no_company.util.LoginLogoutUtils;
 
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class Login extends HttpServlet {
         } else {
 
             UsersDAO dao = new UsersDAO();
-            Users registeredUser = dao.getByNickname(nickname);
+            User registeredUser = dao.getByNickname(nickname);
 
             if (registeredUser != null && registeredUser.getPassword().contentEquals(password)) {
 

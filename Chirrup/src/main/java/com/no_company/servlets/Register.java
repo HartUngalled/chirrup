@@ -2,7 +2,7 @@ package com.no_company.servlets;
 
 import com.google.common.base.Strings;
 import com.no_company.dao.UsersDAO;
-import com.no_company.model.Users;
+import com.no_company.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +33,7 @@ public class Register extends HttpServlet {
 
         } else {
 
-            Users user = Users.builder().nickname(nickname).password(password).build();
+            User user = User.builder().nickname(nickname).password(password).build();
             UsersDAO dao = new UsersDAO();
             dao.add(user);
             resp.sendRedirect("/index.jsp" );

@@ -1,9 +1,8 @@
 package com.no_company.servlets;
 
 import com.no_company.dao.PostsDAO;
-import com.no_company.dao.UsersDAO;
-import com.no_company.model.Posts;
-import com.no_company.model.Users;
+import com.no_company.model.Post;
+import com.no_company.model.User;
 import com.no_company.util.LoginLogoutUtils;
 
 import javax.servlet.ServletException;
@@ -24,11 +23,11 @@ public class PostMessage extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         LoginLogoutUtils loginLogoutUtils = new LoginLogoutUtils(req, resp);
-        Users user = loginLogoutUtils.getLoggedUser();
+        User user = loginLogoutUtils.getLoggedUser();
         String message = req.getParameter("message");
         Date time = Date.from( Instant.now() );
 
-        Posts post = Posts.builder().message(message).time(time).user(user).build();
+        Post post = Post.builder().message(message).time(time).user(user).build();
         dao.add(post);
 
         resp.sendRedirect("index.jsp");

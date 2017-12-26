@@ -59,9 +59,9 @@ public abstract class DataAccessObject<T extends ModelEntity> {
         return allEntities;
     }
 
-    public int remove(int id) {
+    public Integer remove(int id) {
         Transaction tx = null;
-        int removalCounter = 0;
+        Integer removalCounter = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
             T entity = session.get(entityClass, id);
@@ -76,6 +76,20 @@ public abstract class DataAccessObject<T extends ModelEntity> {
             he.printStackTrace();
         }
         return removalCounter;
+    }
+
+    public T pool (int id) {
+        Transaction tx = null;
+        T entity = null;
+        try (Session session = getConfiguredSession()) {
+            tx = session.beginTransaction();
+            entity = session.get(entityClass, id);
+            session.delete(entity);
+        } catch (HibernateException | IllegalArgumentException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+        return entity;
     }
 
 }

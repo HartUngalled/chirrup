@@ -8,7 +8,7 @@ import java.util.List;
 public class PostsDAO extends DataAccessObject<Post> {
 
     public PostsDAO() {
-        aClass = Post.class;
+        entityClass = Post.class;
     }
 
     public List<Post> getAllReverse() {

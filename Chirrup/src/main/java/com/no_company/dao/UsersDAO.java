@@ -7,7 +7,7 @@ import java.util.List;
 public class UsersDAO extends DataAccessObject<User> {
 
     public UsersDAO() {
-        aClass = User.class;
+        entityClass = User.class;
     }
 
     public User getByNickname(String nickname) {

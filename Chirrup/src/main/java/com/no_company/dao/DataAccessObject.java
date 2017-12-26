@@ -11,7 +11,7 @@ import static com.no_company.util.HibernateSessions.getConfiguredSession;
 
 public abstract class DataAccessObject<T extends ModelEntity> {
 
-    public Class<T> aClass;
+    public Class<T> entityClass;
 
     public Integer add(T entity) {
         Session session = null;
@@ -36,7 +36,7 @@ public abstract class DataAccessObject<T extends ModelEntity> {
         T entity = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            entity = session.get(aClass, id);
+            entity = session.get(entityClass, id);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -50,13 +50,32 @@ public abstract class DataAccessObject<T extends ModelEntity> {
         List<T> allEntities = null;
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
-            allEntities = session.createQuery("FROM " + aClass.getSimpleName() ).list();
+            allEntities = session.createQuery("FROM " + entityClass.getSimpleName() ).list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         }
         return allEntities;
+    }
+
+    public int remove(int id) {
+        Transaction tx = null;
+        int removalCounter = 0;
+        try (Session session = getConfiguredSession()) {
+            tx = session.beginTransaction();
+            T entity = session.get(entityClass, id);
+            try {
+                session.delete(entity);
+                removalCounter = 1;
+            } catch (IllegalArgumentException iae) {
+                removalCounter = 0;
+            }
+        } catch (HibernateException he) {
+            if (tx != null) tx.rollback();
+            he.printStackTrace();
+        }
+        return removalCounter;
     }
 
 }

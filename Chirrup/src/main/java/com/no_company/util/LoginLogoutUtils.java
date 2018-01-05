@@ -24,7 +24,7 @@ public class LoginLogoutUtils {
 
     private void readUserFromCookie() {
 
-        if (request.getCookies().length<=0) return;
+        if (request.getCookies() == null) return;
 
         for (Cookie cookie : request.getCookies()) {
             if ( AUTHOR_COOKIE.equals(cookie.getName()) ) {

@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.no_company.dao.PostsDAO" %>
 <%@ page import="com.no_company.model.Post" %>
+<%@ page import="java.util.ArrayList" %>
 
 <html>
 <head>
@@ -29,11 +30,18 @@
 <br><br>
 <%
     PostsDAO dao = new PostsDAO();
-    List<Post> allPosts = dao.getAllReverse();
+    List<Post> allPosts;
+
+    if (request.getParameter("search_user") != null) {
+        int userID = Integer.parseInt( request.getParameter("search_user") );
+        allPosts = dao.getAllUserPostsReverse(userID);
+    } else {
+        allPosts = dao.getAllReverse();
+    }
 
     for (Post post : allPosts) {
         String author = post.getUser().getNickname();
-        out.print( "Author: @" + author + "<br>" );
+        out.print( "Author: <a href=\"/index.jsp?search_user=" + post.getUser().getId() + "\">@" + author + "</a><br>" );
         out.print( "Posted " + post.getPrettyTime() + "<br>" );
         out.print( "Message: " + post.getMessage() + "<br>" );
 

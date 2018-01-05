@@ -65,6 +65,7 @@ public abstract class DataAccessObject<T extends ModelEntity> {
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
             T entity = session.get(entityClass, id);
+            tx.commit();
             try {
                 session.delete(entity);
                 removalCounter = 1;
@@ -85,11 +86,24 @@ public abstract class DataAccessObject<T extends ModelEntity> {
             tx = session.beginTransaction();
             entity = session.get(entityClass, id);
             session.delete(entity);
+            tx.commit();
         } catch (HibernateException | IllegalArgumentException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         }
         return entity;
+    }
+
+    public void update (T entity) {
+        Transaction tx = null;
+        try (Session session = getConfiguredSession()) {
+            tx = session.beginTransaction();
+            session.update(entity);
+            tx.commit();
+        } catch (HibernateException | IllegalArgumentException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
     }
 
 }

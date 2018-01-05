@@ -7,10 +7,10 @@
 <body>
 
 <form action="/postMessage" method="post">
-    <dif class="centerInfo">
+    <div class="centerInfo">
         Message: <br><textarea name="message"></textarea><br>
         <input type="submit" name="submit" value="Submit">
-    </dif>
+    </div>
 </form>
 
 </body>

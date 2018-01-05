@@ -11,7 +11,7 @@
 <body>
 
 
-<dif class="centerInfo">
+<div class="centerInfo">
     <%
         if (loggedUser == null) {
             out.print( "Hello stranger!<br>" +
@@ -21,12 +21,12 @@
                     "Do you want to <a href=\"/post.jsp\">post</a> a message?" );
         }
     %>
-</dif>
+</div>
 
 <%--
         Show Messages
 --%>
-<p align="left"><br><br>
+<br><br>
 <%
     PostsDAO dao = new PostsDAO();
     List<Post> allPosts = dao.getAllReverse();
@@ -45,7 +45,6 @@
         out.print( "<br>" );
     }
 %>
-</p>
 
 </body>
 </html>

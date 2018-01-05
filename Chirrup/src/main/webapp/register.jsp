@@ -2,6 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
+    <link rel="stylesheet" href="css/styles.css">
+    <%@include file="header.jsp"%>
 <head>
 
 </head>

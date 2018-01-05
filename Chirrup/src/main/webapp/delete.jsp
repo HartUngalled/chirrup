@@ -15,16 +15,16 @@
 %>
 
 <form action="/delete" method="post">
-    <dif class="centerInfo">
+    <div class="centerInfo">
         Do you really want to delete this post? <br><br>
-        <diff>
+        <div class="centerInfo">
             Author: @<%=postToDelete.getUser().getNickname()%> <br>
             Posted <%=postToDelete.getPrettyTime()%> <br>
             Message: <%=postToDelete.getMessage()%> <br>
-        </diff>
         <input type="hidden" name="post_id" value=<%=deletedPostId%>>
         <input type="submit" name="submit" value="Delete">
-    </dif>
+        </div>
+    </div>
 </form>
 
 </body>

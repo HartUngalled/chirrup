@@ -11,11 +11,11 @@
     User loggedUser = loginLogoutUtils.getLoggedUser();
 %>
 
-<dif class="mainPage">
+<div class="mainPage">
     <a href="/index.jsp">Main Page</a>
-</dif>
+</div>
 
-<dif class="loginLogoutRegister">
+<div class="loginLogoutRegister">
     <%
         if (loggedUser == null)
             out.print("<a href=\"/login.jsp\">Login</a>");
@@ -23,7 +23,7 @@
             out.print("<a href=\"/logout\">Logout</a>");
     %>
     <a href="/register.jsp">Register</a>
-</dif>
+</div>
 
 </body>
 </html>

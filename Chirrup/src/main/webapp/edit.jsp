@@ -15,11 +15,11 @@
 %>
 
 <form action="/edit" method="post">
-    <dif class="centerInfo">
+    <div class="centerInfo">
         Message: <br><textarea name="message"><%= postToEdit.getMessage() %></textarea><br>
         <input type="hidden" name="post_id" value=<%=editedPostId%>>
         <input type="submit" name="submit" value="Submit">
-    </dif>
+    </div>
 </form>
 
 </body>

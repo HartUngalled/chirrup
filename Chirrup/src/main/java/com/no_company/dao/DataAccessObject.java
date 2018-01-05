@@ -65,13 +65,13 @@ public abstract class DataAccessObject<T extends ModelEntity> {
         try (Session session = getConfiguredSession()) {
             tx = session.beginTransaction();
             T entity = session.get(entityClass, id);
-            tx.commit();
             try {
                 session.delete(entity);
                 removalCounter = 1;
             } catch (IllegalArgumentException iae) {
                 removalCounter = 0;
             }
+            tx.commit();
         } catch (HibernateException he) {
             if (tx != null) tx.rollback();
             he.printStackTrace();

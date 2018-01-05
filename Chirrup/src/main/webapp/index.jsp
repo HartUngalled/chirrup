@@ -39,7 +39,7 @@
 
         if (loggedUser != null && loggedUser.getNickname().contentEquals(author) ) {
             out.print("<a href=\"/edit.jsp?post_id=" + post.getId() + "\">Edit</a> ");
-            out.print("<a href=\"/delete.jsp\">Delete</a><br>");
+            out.print("<a href=\"/delete.jsp?post_id=" + post.getId() + "\">Delete</a><br>");
         }
 
         out.print( "<br>" );
